@@ -1,0 +1,10 @@
+bot:
+  prefix: "$"
+  token: ""
+
+guild:
+  id: 
+  invite: ""
+
+config:
+  required_keys: ['bot.token']
