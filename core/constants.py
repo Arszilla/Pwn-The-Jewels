@@ -17,16 +17,16 @@ def check_required(keys):
     Verifies that keys that are set to be required are present in 
     the loaded configuration.
     """
-    
+
     for key_path in keys:
         lookup = settings
         try:
             for key in key_path.split('.'):
                 lookup = lookup[key]
-                
+
                 if lookup is None:
                     raise KeyError(key)
-        
+
         except KeyError:
             log.critical(
                 f"A configuration for `{key_path}` is required, but was not found. "
