@@ -4,9 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+"checksec.py" = "*"
 "discord.py" = "*"
 pyyaml = "*"
-"checksec.py" = "*"
 
 [dev-packages]
 
