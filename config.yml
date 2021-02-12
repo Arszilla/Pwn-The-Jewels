@@ -17,7 +17,7 @@ guild:
     youtube_rss:    &YOUTUBE_CHANNEL    000000000000000000
 
 database:
-  name: "database.db"
+  name: "watchlist.db"
 
 config:
   required_keys: ['bot.token']
