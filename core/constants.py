@@ -113,3 +113,11 @@ class Database(metaclass=YAMLGetter):
     section = "database"
 
     name: str
+
+
+class Reddit(metaclass=YAMLGetter):
+    section = "reddit"
+
+    client_id: str
+    secret: str
+    user_agent: str
