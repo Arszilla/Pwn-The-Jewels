@@ -3,7 +3,7 @@ bot:
   token: ""
 
 guild:
-  id: 
+  id: 000000000000000000
   invite: ""
 
   channels:
@@ -18,6 +18,11 @@ guild:
 
 database:
   name: "watchlist.db"
+
+reddit:
+  client_id: "REDDIT_CLIENT_ID"
+  secret: "REDDIT_SECRET"
+  user_agent: "Pwn The Jewels - A Discord Infosec Bot by Arszilla" 
 
 config:
   required_keys: ['bot.token']
