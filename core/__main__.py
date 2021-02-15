@@ -17,27 +17,14 @@ bot = commands.Bot(
 # Runs this function once the bot is ready.
 @bot.event
 async def on_ready():
-    connection = None
-
-    # Try to connect to the database
-    try:
-        """
-        The database here will be used to store the items to be tracked.
-        Upon running the bot for the first time, the database and its tables will be created.
-        """
-        connection = await aiosqlite.connect(constants.Database.name)
-        cursor = await connection.cursor()
-
+    """
+    The database here will be used to store the items to be tracked.
+    Upon running the bot for the first time, the database and its tables will be created.
+    """
+    async with aiosqlite.connect(constants.Database.name) as database:
         # Create Reddit related tables
-        await cursor.execute(f"CREATE TABLE IF NOT EXISTS reddit_subreddits(subreddit TEXT)")
-        await cursor.execute(f"CREATE TABLE IF NOT EXISTS reddit_posts(id TEXT, subreddit TEXT, author TEXT, title TEXT, url TEXT)")
-
-    except aiosqlite.Error as error:
-        print(error)
-
-    finally:
-        if connection:
-            await connection.close()
+        await database.execute(f"CREATE TABLE IF NOT EXISTS reddit_subreddits(subreddit TEXT)")
+        await database.execute(f"CREATE TABLE IF NOT EXISTS reddit_posts(id TEXT, subreddit TEXT, author TEXT, title TEXT, url TEXT)")
 
     # Start the Reddit monitoring
     reddit_monitor = reddit.Reddit(bot)
