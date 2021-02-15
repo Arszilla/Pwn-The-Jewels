@@ -5,7 +5,7 @@ from os.path import isdir, isfile
 import discord
 from discord.ext import commands
 
-from core import analyze, functions
+from core import analyze, constants, functions, reddit
 
 
 class Commands(commands.Cog):
@@ -55,7 +55,7 @@ class Commands(commands.Cog):
         """
 
         # Notify the user(s) about the purge
-        await context.send(f"Clearing message(s)")
+        await context.send(f"Clearing message(s)...")
 
         # Give them a small timeframe to know
         await sleep(0.75)
@@ -68,8 +68,33 @@ class Commands(commands.Cog):
 
         # Let the user(s) know that the purge has happened, then
         # delete the information after a small timeframe
-        await context.send(f"Cleared {len(deleted_amount)} message(s)",
+        await context.send(f"Cleared {len(deleted_amount)} message(s).",
                            delete_after=1.0)
+
+
+    @commands.command()
+    async def addsubreddit(self, context, subreddit):
+        reddit_class = reddit.Reddit(bot=None)
+        result = await reddit_class.add_subreddit(subreddit.lower())
+
+        if result == False:
+            await context.send(f"`/r/{subreddit.lower()}` subreddit already exists in the watchlist database, as a result it was not added.")
+
+        elif result == True:
+            await context.send(f"Added `/r/{subreddit.lower()}` subreddit to the watchlist database.")
+
+
+    @commands.command()
+    async def removesubreddit(self, context, subreddit):
+        reddit_class = reddit.Reddit(bot=None)
+        result = await reddit_class.remove_subreddit(subreddit.lower())
+
+        if result == False:
+            await context.send(f"`/r/{subreddit.lower()}` subreddit doesn't exist in the watchlist database, as a result it was not removed.")
+
+        elif result == True:
+            await context.send(f"Removed `/r/{subreddit.lower()}` subreddit from the watchlist database.")
+
 
     @commands.command()
     async def analyze_linux(self, context):
