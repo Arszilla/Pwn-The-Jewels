@@ -20,7 +20,6 @@ class Analysis():
 
         # Take out the irrelevant lines from the dictionary
         dict = dict[list(dict.keys())[0]].values()
-        print(dict)
 
         # Turn the dictionary into a list
         listified = list(dict)
