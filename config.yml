@@ -8,10 +8,10 @@ guild:
 
   channels:
     # RSS and Reminder channels
+    general_rss:    &RSS_CHANNEL        000000000000000000
     google_rss:     &GOOGLE_RSS_CHANNEL 000000000000000000
     reddit_rss:     &REDDIT_CHANNEL     000000000000000000
     reminders:      &REMINDER_CHANNEL   000000000000000000
-    general_rss:    &RSS_CHANNEL        000000000000000000
     telegram_rss:   &TELEGRAM_CHANNEL   000000000000000000
     twitter_rss:    &TWITTER_CHANNEL    000000000000000000
     youtube_rss:    &YOUTUBE_CHANNEL    000000000000000000
