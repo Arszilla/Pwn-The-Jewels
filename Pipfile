@@ -8,6 +8,7 @@ aiosqlite = "*"
 asyncpraw = "*"
 "checksec.py" = "*"
 "discord.py" = "*"
+feedparser = "*"
 pyyaml = "*"
 
 [dev-packages]

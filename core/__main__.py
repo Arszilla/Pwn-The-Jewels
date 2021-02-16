@@ -3,7 +3,7 @@ import discord
 from discord.ext import commands
 from discord.ext.commands import when_mentioned_or
 
-from core import constants, reddit
+from core import constants, rss, reddit
 
 bot = commands.Bot(
     activity=discord.Game(name="Pwning The Jewels"),
@@ -22,9 +22,17 @@ async def on_ready():
     Upon running the bot for the first time, the database and its tables will be created.
     """
     async with aiosqlite.connect(constants.Database.name) as database:
-        # Create Reddit related tables
+        # Create general RSS related tables:
+        await database.execute(f"CREATE TABLE IF NOT EXISTS general_rss_links(url TEXT)")
+        await database.execute(f"CREATE TABLE IF NOT EXISTS general_rss_posts(id TEXT, title TEXT, url TEXT)")
+
+        # Create Reddit related tables:
         await database.execute(f"CREATE TABLE IF NOT EXISTS reddit_subreddits(subreddit TEXT)")
         await database.execute(f"CREATE TABLE IF NOT EXISTS reddit_posts(id TEXT, subreddit TEXT, author TEXT, title TEXT, url TEXT)")
+
+    # Start the RSS monitoring
+    rss_monitor = rss.RSS(bot)
+    rss_monitor.monitor_rss.start()
 
     # Start the Reddit monitoring
     reddit_monitor = reddit.Reddit(bot)

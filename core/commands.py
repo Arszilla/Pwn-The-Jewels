@@ -5,7 +5,7 @@ from os.path import isdir, isfile
 import discord
 from discord.ext import commands
 
-from core import analyze, constants, functions, reddit
+from core import analyze, constants, functions, rss, reddit
 
 
 class Commands(commands.Cog):
@@ -73,15 +73,39 @@ class Commands(commands.Cog):
 
 
     @commands.command()
+    async def addrss(self, context, url):
+        rss_class = rss.RSS(bot=None)
+        result = await rss_class.add_feed(url)
+
+        if result == False:
+            await context.send(f"The URL already exists in the watchlist database, as a result it was not added.")
+
+        elif result == True:
+            await context.send(f"Added the URL to the watchlist database.")
+
+
+    @commands.command()
+    async def removerss(self, context, url):
+        rss_class = rss.RSS(bot=None)
+        result = await rss_class.remove_feed(url)
+
+        if result == False:
+            await context.send(f"The URL doesn't exist in the watchlist database, as a result it was not removed.")
+
+        elif result == True:
+            await context.send(f"Removed the URL from the watchlist database.")
+
+
+    @commands.command()
     async def addsubreddit(self, context, subreddit):
         reddit_class = reddit.Reddit(bot=None)
         result = await reddit_class.add_subreddit(subreddit.lower())
 
         if result == False:
-            await context.send(f"`/r/{subreddit.lower()}` subreddit already exists in the watchlist database, as a result it was not added.")
+            await context.send(f"`/r/{subreddit.lower()}` already exists in the watchlist database, as a result it was not added.")
 
         elif result == True:
-            await context.send(f"Added `/r/{subreddit.lower()}` subreddit to the watchlist database.")
+            await context.send(f"Added `/r/{subreddit.lower()}` to the watchlist database.")
 
 
     @commands.command()
@@ -90,10 +114,10 @@ class Commands(commands.Cog):
         result = await reddit_class.remove_subreddit(subreddit.lower())
 
         if result == False:
-            await context.send(f"`/r/{subreddit.lower()}` subreddit doesn't exist in the watchlist database, as a result it was not removed.")
+            await context.send(f"`/r/{subreddit.lower()}` doesn't exist in the watchlist database, as a result it was not removed.")
 
         elif result == True:
-            await context.send(f"Removed `/r/{subreddit.lower()}` subreddit from the watchlist database.")
+            await context.send(f"Removed `/r/{subreddit.lower()}` from the watchlist database.")
 
 
     @commands.command()
