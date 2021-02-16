@@ -36,9 +36,11 @@ class Reddit():
                                         (subreddit,)) as cursor:
                 result = await cursor.fetchall()
 
+            # If the subreddit does NOT exist in the database:
             if len(result) == 0:
                 return False
 
+            # If the subreddit exists in the database:
             else:
                 await database.execute("DELETE FROM reddit_subreddits WHERE subreddit=?",
                                        (subreddit,))
@@ -58,8 +60,7 @@ class Reddit():
 
             # Initiate asyncpraw by unpacking the config dictionary.
             async with asyncpraw.Reddit(**config) as reddit:
-                # Define the channel:
-                await self.bot.wait_until_ready()
+                # Define the channel that'll be used to send the embeds:
                 channel = self.bot.get_channel(constants.Channels.reddit_rss)
 
                 # Get all the subreddits in the database:
@@ -72,11 +73,14 @@ class Reddit():
                     for sub in subreddit_list:
                         subreddit = await reddit.subreddit(sub)
 
+                        # Gather the submissions in the subreddit, with a limit of 1 submission.
                         async for submission in subreddit.new(limit=1):
+                            # Check if the post has been saved in the database:
                             async with database.execute("SELECT id FROM reddit_posts WHERE id=?",
                                                         (str(submission),)) as id_cursor:
                                 result = await id_cursor.fetchall()
 
+                                # If the post does NOT exist in the database:
                                 if len(result) == 0:
                                     await database.execute("INSERT INTO reddit_posts VALUES (?, ?, ?, ?, ?)",
                                                            (str(submission),
@@ -105,6 +109,6 @@ class Reddit():
                                     # Send the Discord embed to the Reddit channel.
                                     await channel.send(embed=embed)
 
-                                # If the post already exists in the database, move on to the next subreddit.
+                                # If the post exists in the database, move on to the next subreddit.
                                 else:
                                     continue
