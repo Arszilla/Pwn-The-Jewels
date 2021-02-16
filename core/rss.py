@@ -52,8 +52,8 @@ class RSS():
     @loop(seconds=30)
     async def monitor_rss(self):
         async with aiosqlite.connect(constants.Database.name) as database:
-            async with database.execute("SELECT * FROM general_rss_links") as sub_cursor:
-                rss_links = await sub_cursor.fetchall()
+            async with database.execute("SELECT * FROM general_rss_links") as rss_cursor:
+                rss_links = await rss_cursor.fetchall()
 
                 # Turn the list of tuples into a list:
                 rss_links = [item for url in rss_links for item in url]
