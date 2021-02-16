@@ -100,10 +100,10 @@ class Channels(metaclass=YAMLGetter):
     section = "guild"
     subsection = "channels"
 
+    general_rss: int
     google_rss: int
     reddit_rss: int
     reminders: int
-    general_rss: int
     telegram_rss: int
     twitter_rss: int
     youtube_rss: int
