@@ -84,13 +84,21 @@ class RSS():
                                 title=entry.title,
                                 url=entry.link,
                                 type="rich",
-                                color=0xFF4500
+                                color=0x777777
                             )
 
-                            # Embed the author of the post.
-                            embed.set_author(
-                                name=entry.author,
-                            )
+                            # If the post has an author, try to embed it:
+                            try:
+                                # Embed the author of the post.
+                                embed.set_author(
+                                    name=entry.author,
+                                )
+
+                            # If the post doesn't have an author, embed 'unknown author'
+                            except KeyError:
+                                embed.set_author(
+                                    name="Unknown Author",
+                                )
 
                             # Send the Discord embed to the general_rss channel.
                             await channel.send(embed=embed)
