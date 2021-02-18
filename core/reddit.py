@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import aiosqlite
 import asyncpraw
 import discord
@@ -84,10 +86,10 @@ class Reddit():
                                 if len(result) == 0:
                                     await database.execute("INSERT INTO reddit_posts VALUES (?, ?, ?, ?, ?)",
                                                            (str(submission),
-                                                            str(sub),
-                                                            str(submission.author.name),
-                                                            str(submission.title),
-                                                            f"https://reddit.com{str(submission.permalink)}"))
+                                                            sub,
+                                                            submission.author.name,
+                                                            submission.title,
+                                                            f"https://reddit.com{submission.permalink}"))
                                     await database.commit()
 
                                     # 'submission.shortlink' is an alternative to 'submission.permalink',
@@ -105,6 +107,14 @@ class Reddit():
                                         name=f"/u/{submission.author.name}",
                                         url=f"https://reddit.com/u/{submission.author.name}"
                                     )
+
+                                    # Embed the footer
+                                    embed.set_footer(
+                                        text="Pwn The Jewels"
+                                    )
+
+                                    # Embed the time
+                                    embed.timestamp = datetime.utcnow()
 
                                     # Send the Discord embed to the Reddit channel.
                                     await channel.send(embed=embed)
