@@ -5,7 +5,7 @@ from os.path import isdir, isfile
 import discord
 from discord.ext import commands
 
-from core import analyze, constants, functions, rss, reddit
+from core import analyze, constants, functions, rss, reddit, twitter
 
 
 class Commands(commands.Cog):
@@ -118,6 +118,61 @@ class Commands(commands.Cog):
 
         elif result == True:
             await context.send(f"Removed `/r/{subreddit.lower()}` from the watchlist database.")
+
+
+    @commands.command()
+    async def addtweeter(self, context, username):
+        twitter_class = twitter.Twitter(bot=None)
+        result = await twitter_class.add_user(username.lower())
+
+        if result == False:
+            await context.send(f"`@{username.lower()}` already exists in the watchlist database, as a result it was not added.")
+
+        elif result == True:
+            await context.send(f"Added `@{username.lower()}` to the watchlist database.")
+
+
+    @commands.command()
+    async def removetweeter(self, context, username):
+        twitter_class = twitter.Twitter(bot=None)
+        result = await twitter_class.remove_user(username.lower())
+
+        if result == False:
+            await context.send(f"`@{username.lower()}` doesn't exist in the watchlist database, as a result it was not removed.")
+
+        elif result == True:
+            await context.send(f"Removed `@{username.lower()}` from the watchlist database.")
+
+
+    @commands.command()
+    async def enablerts(self, context, username):
+        twitter_class = twitter.Twitter(bot=None)
+        result = await twitter_class.enable_retweets(username.lower())
+
+        if result == "0":
+            await context.send(f"`@{username.lower()}` doesn't exists in the watchlist database, as a result it was not updated.")
+
+        elif result == "1":
+            await context.send(f"Retweets from `@{username.lower()}` will now be displayed.")
+
+        elif result == "2":
+            await context.send(f"You've already enabled retweets for `@{username.lower()}`. As a result, the value was not updated.")
+
+
+    @commands.command()
+    async def disablerts(self, context, username):
+        twitter_class = twitter.Twitter(bot=None)
+        result = await twitter_class.disable_retweets(username.lower())
+
+        if result == "0":
+            await context.send(f"`@{username.lower()}` doesn't exists in the watchlist database, as a result it was not updated.")
+
+        elif result == "1":
+            await context.send(f"You've already disabled retweets for `@{username.lower()}`. As a result, the value was not updated.")
+
+
+        elif result == "2":
+            await context.send(f"Retweets from `@{username.lower()}` will now not be displayed.")
 
 
     @commands.command()

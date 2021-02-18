@@ -24,5 +24,11 @@ reddit:
   secret: "REDDIT_SECRET"
   user_agent: "Pwn The Jewels - A Discord Infosec Bot by Arszilla" 
 
+twitter:
+  access_token: ""
+  access_token_secret: ""
+  consumer_key: ""
+  consumer_secret: ""
+
 config:
   required_keys: ['bot.token']

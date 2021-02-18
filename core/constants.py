@@ -121,3 +121,11 @@ class Reddit(metaclass=YAMLGetter):
     client_id: str
     secret: str
     user_agent: str
+
+class Twitter(metaclass=YAMLGetter):
+    section = "twitter"
+
+    access_token: str
+    access_token_secret: str
+    consumer_key: str
+    consumer_secret: str
