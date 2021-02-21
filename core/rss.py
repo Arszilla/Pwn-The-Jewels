@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import aiosqlite
 import discord
 import feedparser
@@ -51,14 +53,16 @@ class RSS():
     # Run this every 30 seconds
     @loop(seconds=30)
     async def monitor_rss(self):
-        async with aiosqlite.connect(constants.Database.name) as database:
-            async with database.execute("SELECT * FROM general_rss_links") as rss_cursor:
-                rss_links = await rss_cursor.fetchall()
+        try:
+            # Define the channel that'll be used to send the embeds:
+            channel = self.bot.get_channel(constants.Channels.general_rss)
+
+            async with aiosqlite.connect(constants.Database.name) as database:
+                async with database.execute("SELECT * FROM general_rss_links") as rss_cursor:
+                    rss_links = await rss_cursor.fetchall()
 
                 # Turn the list of tuples into a list:
-                rss_links = [item for url in rss_links for item in url]
-
-                channel = self.bot.get_channel(constants.Channels.general_rss)
+                rss_links = [url[0] for url in rss_links]
 
                 for url in rss_links:
                     # Get the RSS feed of the URL
@@ -95,10 +99,18 @@ class RSS():
                                 )
 
                             # If the post doesn't have an author, embed 'unknown author'
-                            except KeyError:
+                            except AttributeError:
                                 embed.set_author(
                                     name="Unknown Author",
                                 )
+
+                            # Embed the footer
+                            embed.set_footer(
+                                text="Pwn The Jewels"
+                            )
+
+                            # Embed the time
+                            embed.timestamp = datetime.utcnow()
 
                             # Send the Discord embed to the general_rss channel.
                             await channel.send(embed=embed)
@@ -106,3 +118,6 @@ class RSS():
                         # If the ID exists in the database, move on to the next feed.
                         else:
                             continue
+
+        except IndexError:
+            pass
