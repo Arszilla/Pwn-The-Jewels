@@ -122,6 +122,7 @@ class Reddit(metaclass=YAMLGetter):
     secret: str
     user_agent: str
 
+
 class Twitter(metaclass=YAMLGetter):
     section = "twitter"
 
@@ -129,6 +130,7 @@ class Twitter(metaclass=YAMLGetter):
     access_token_secret: str
     consumer_key: str
     consumer_secret: str
+
 
 class Youtube(metaclass=YAMLGetter):
     section = "youtube"
