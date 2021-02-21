@@ -71,7 +71,6 @@ class Commands(commands.Cog):
         await context.send(f"Cleared {len(deleted_amount)} message(s).",
                            delete_after=1.0)
 
-
     @commands.command()
     async def addrss(self, context, url):
         rss_class = rss.RSS(bot=None)
@@ -82,7 +81,6 @@ class Commands(commands.Cog):
 
         elif result == True:
             await context.send(f"Added the URL to the watchlist database.")
-
 
     @commands.command()
     async def removerss(self, context, url):
@@ -95,7 +93,6 @@ class Commands(commands.Cog):
         elif result == True:
             await context.send(f"Removed the URL from the watchlist database.")
 
-
     @commands.command()
     async def addsubreddit(self, context, subreddit):
         reddit_class = reddit.Reddit(bot=None)
@@ -106,7 +103,6 @@ class Commands(commands.Cog):
 
         elif result == True:
             await context.send(f"Added `/r/{subreddit.lower()}` to the watchlist database.")
-
 
     @commands.command()
     async def removesubreddit(self, context, subreddit):
@@ -119,7 +115,6 @@ class Commands(commands.Cog):
         elif result == True:
             await context.send(f"Removed `/r/{subreddit.lower()}` from the watchlist database.")
 
-
     @commands.command()
     async def addtweeter(self, context, username):
         twitter_class = twitter.Twitter(bot=None)
@@ -131,7 +126,6 @@ class Commands(commands.Cog):
         elif result == True:
             await context.send(f"Added `@{username.lower()}` to the watchlist database.")
 
-
     @commands.command()
     async def removetweeter(self, context, username):
         twitter_class = twitter.Twitter(bot=None)
@@ -142,7 +136,6 @@ class Commands(commands.Cog):
 
         elif result == True:
             await context.send(f"Removed `@{username.lower()}` from the watchlist database.")
-
 
     @commands.command()
     async def enablerts(self, context, username):
@@ -158,7 +151,6 @@ class Commands(commands.Cog):
         elif result == "2":
             await context.send(f"You've already enabled retweets for `@{username.lower()}`. As a result, the value was not updated.")
 
-
     @commands.command()
     async def disablerts(self, context, username):
         twitter_class = twitter.Twitter(bot=None)
@@ -170,10 +162,8 @@ class Commands(commands.Cog):
         elif result == "1":
             await context.send(f"You've already disabled retweets for `@{username.lower()}`. As a result, the value was not updated.")
 
-
         elif result == "2":
             await context.send(f"Retweets from `@{username.lower()}` will now not be displayed.")
-
 
     @commands.command()
     async def addchannel(self, context, url):
@@ -186,7 +176,6 @@ class Commands(commands.Cog):
         elif result == True:
             await context.send(f"Added `{channel_name}` to the watchlist database.")
 
-
     @commands.command()
     async def removechannel(self, context, url):
         youtube_class = youtube.Youtube(bot=None)
@@ -197,7 +186,6 @@ class Commands(commands.Cog):
 
         elif result == True:
             await context.send(f"Removed `{channel_name}` from the watchlist database.")
-
 
     @commands.command()
     async def analyze_linux(self, context):
