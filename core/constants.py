@@ -129,3 +129,8 @@ class Twitter(metaclass=YAMLGetter):
     access_token_secret: str
     consumer_key: str
     consumer_secret: str
+
+class Youtube(metaclass=YAMLGetter):
+    section = "youtube"
+
+    api_key: str

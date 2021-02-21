@@ -9,10 +9,14 @@ asyncpraw = "*"
 "checksec.py" = "*"
 "discord.py" = "*"
 feedparser = "*"
+google-api-python-client = "*"
 pyyaml = "*"
 tweepy = "*"
 
 [dev-packages]
+
+[requires]
+python_version = "3.9.1"
 
 [scripts]
 bot = "python -m core"

@@ -3,7 +3,7 @@ import discord
 from discord.ext import commands
 from discord.ext.commands import when_mentioned_or
 
-from core import constants, rss, reddit, twitter
+from core import constants, rss, reddit, twitter, youtube
 
 bot = commands.Bot(
     activity=discord.Game(name="Pwning The Jewels"),
@@ -34,17 +34,25 @@ async def on_ready():
         await database.execute(f"CREATE TABLE IF NOT EXISTS twitter_usernames(username TEXT, retweets INT)")
         await database.execute(f"CREATE TABLE IF NOT EXISTS twitter_tweets(id INTEGER, user TEXT, text TEXT, url TEXT)")
 
-    # Start the RSS monitoring
+        # Create Youtube related tables
+        await database.execute(f"CREATE TABLE IF NOT EXISTS youtube_channels(channel_id TEXT, channel_name TEXT)")
+        await database.execute(f"CREATE TABLE IF NOT EXISTS youtube_videos(channel_id TEXT, channel_name TEXT, video_id TEXT, title TEXT, url TEXT)")
+
+    # Start RSS monitoring
     rss_monitor = rss.RSS(bot)
     rss_monitor.monitor_rss.start()
 
-    # Start the Reddit monitoring
+    # Start Reddit monitoring
     reddit_monitor = reddit.Reddit(bot)
     reddit_monitor.monitor_subreddit.start()
 
-    # Start the Twitter monitoring
+    # Start Twitter monitoring
     twitter_monitor = twitter.Twitter(bot)
     twitter_monitor.monitor_tweets.start()
+
+    # # Start Youtube monitoring
+    youtube_monitor = youtube.Youtube(bot)
+    youtube_monitor.monitor_videos.start()
 
 
 if __name__ == "__main__":

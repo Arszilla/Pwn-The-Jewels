@@ -5,7 +5,7 @@ from os.path import isdir, isfile
 import discord
 from discord.ext import commands
 
-from core import analyze, constants, functions, rss, reddit, twitter
+from core import analyze, constants, functions, rss, reddit, twitter, youtube
 
 
 class Commands(commands.Cog):
@@ -173,6 +173,30 @@ class Commands(commands.Cog):
 
         elif result == "2":
             await context.send(f"Retweets from `@{username.lower()}` will now not be displayed.")
+
+
+    @commands.command()
+    async def addchannel(self, context, url):
+        youtube_class = youtube.Youtube(bot=None)
+        result, channel_name = await youtube_class.add_channel(url)
+
+        if result == False:
+            await context.send(f"`{channel_name}` already exists in the watchlist database, as a result it was not added.")
+
+        elif result == True:
+            await context.send(f"Added `{channel_name}` to the watchlist database.")
+
+
+    @commands.command()
+    async def removechannel(self, context, url):
+        youtube_class = youtube.Youtube(bot=None)
+        result, channel_name = await youtube_class.remove_channel(url)
+        
+        if result == False:
+            await context.send(f"`{channel_name}` doesn't exist in the watchlist database, as a result it was not removed.")
+
+        elif result == True:
+            await context.send(f"Removed `{channel_name}` from the watchlist database.")
 
 
     @commands.command()

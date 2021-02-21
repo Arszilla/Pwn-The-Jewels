@@ -30,5 +30,8 @@ twitter:
   consumer_key: ""
   consumer_secret: ""
 
+youtube:
+  api_key: ""
+
 config:
   required_keys: ['bot.token']
