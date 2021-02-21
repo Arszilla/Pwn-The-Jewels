@@ -109,18 +109,15 @@ class Youtube():
 
                 # If the URL exists in the database:
                 else:
+                    async with database.execute("SELECT channel_name FROM youtube_channels WHERE channel_id=?",
+                                                (channel_id,)) as channel_name_cursor:
+                        result = await channel_name_cursor.fetchall()
+
+                    channel_name = [channel_name[0] for channel_name in result][0]
+
                     await database.execute("DELETE FROM youtube_channels WHERE channel_id=?",
                                            (channel_id,))
                     await database.commit()
-
-                    # Get the channel's display name:
-                    channel_name_request = self.youtube.channels().list(
-                        part="snippet",
-                        id=channel_id
-                    )
-
-                    channel_name_response = channel_name_request.execute()
-                    channel_name = channel_name_response["items"][0]["snippet"]["title"]
 
                     return True, channel_name
 
