@@ -5,7 +5,7 @@ from os.path import isdir, isfile
 import discord
 from discord.ext import commands
 
-from core import analyze, constants, functions, rss, reddit, twitter, youtube
+from core import analyze, constants, functions, rss, google_alerts, reddit, twitter, youtube
 
 
 class Commands(commands.Cog):
@@ -92,6 +92,28 @@ class Commands(commands.Cog):
 
         elif result == True:
             await context.send(f"Removed the URL from the watchlist database.")
+
+    @commands.command()
+    async def addalert(self, context, url):
+        alert_class = google_alerts.Google_Alerts(bot=None)
+        result, keyword = await alert_class.add_alert(url)
+
+        if result == False:
+            await context.send(f"The alert for `{keyword}` already exists in the watchlist database, as a result it was not added.")
+
+        elif result == True:
+            await context.send(f"Added the alert for `{keyword}` to the watchlist database.")
+
+    @commands.command()
+    async def removealert(self, context, url):
+        alert_class = google_alerts.Google_Alerts(bot=None)
+        result, keyword = await alert_class.remove_alert(url)
+
+        if result == False:
+            await context.send(f"The alert for `{keyword}` doesn't exist in the watchlist database, as a result it was not removed.")
+
+        elif result == True:
+            await context.send(f"Removed the alert for `{keyword}` from the watchlist database.")
 
     @commands.command()
     async def addsubreddit(self, context, subreddit):

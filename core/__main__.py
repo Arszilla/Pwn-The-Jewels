@@ -3,7 +3,7 @@ import discord
 from discord.ext import commands
 from discord.ext.commands import when_mentioned_or
 
-from core import constants, rss, reddit, twitter, youtube
+from core import constants, rss, google_alerts, reddit, twitter, youtube
 
 bot = commands.Bot(
     activity=discord.Game(name="Pwning The Jewels"),
@@ -26,6 +26,10 @@ async def on_ready():
         await database.execute(f"CREATE TABLE IF NOT EXISTS general_rss_links(url TEXT)")
         await database.execute(f"CREATE TABLE IF NOT EXISTS general_rss_posts(id TEXT, title TEXT, url TEXT)")
 
+        # Create Google Alerts RSS related tables:
+        await database.execute(f"CREATE TABLE IF NOT EXISTS google_alerts_links(url TEXT, keyword TEXT)")
+        await database.execute(f"CREATE TABLE IF NOT EXISTS google_alerts_posts(id TEXT, title TEXT, url TEXT)")
+
         # Create Reddit related tables:
         await database.execute(f"CREATE TABLE IF NOT EXISTS reddit_subreddits(subreddit TEXT)")
         await database.execute(f"CREATE TABLE IF NOT EXISTS reddit_posts(id TEXT, subreddit TEXT, author TEXT, title TEXT, url TEXT)")
@@ -41,6 +45,10 @@ async def on_ready():
     # Start RSS monitoring
     rss_monitor = rss.RSS(bot)
     rss_monitor.monitor_rss.start()
+
+    # Start Google Alerts monitoring
+    alert_monitor = google_alerts.Google_Alerts(bot)
+    alert_monitor.monitor_alerts.start()
 
     # Start Reddit monitoring
     reddit_monitor = reddit.Reddit(bot)
