@@ -145,62 +145,62 @@ class Youtube():
                                             (video_id,)) as video_id_cursor:
                     result = await video_id_cursor.fetchall()
 
-                    # If the video does NOT exist in the database:
-                    if len(result) == 0:
-                        # Get the video's details:
-                        video_info_request = self.youtube.videos().list(
-                            part="snippet",
-                            id=video_id
-                        )
+                # If the video does NOT exist in the database:
+                if len(result) == 0:
+                    # Get the video's details:
+                    video_info_request = self.youtube.videos().list(
+                        part="snippet",
+                        id=video_id
+                    )
 
-                        video_info_response = video_info_request.execute()
+                    video_info_response = video_info_request.execute()
 
-                        # Get the video's name:
-                        video_name = video_info_response["items"][0]["snippet"]["title"]
+                    # Get the video's name:
+                    video_name = video_info_response["items"][0]["snippet"]["title"]
 
-                        # Get the video's description:
-                        # video_description = video_info_response["items"][0]["snippet"]["description"]
+                    # Get the video's description:
+                    # video_description = video_info_response["items"][0]["snippet"]["description"]
 
-                        await database.execute("INSERT INTO youtube_videos VALUES (?, ?, ?, ?, ?)",
-                                               (channel_id,
-                                                channel_name,
-                                                video_id,
-                                                video_name,
-                                                f"https://www.youtube.com/watch?v={video_id}"))
-                        await database.commit()
+                    await database.execute("INSERT INTO youtube_videos VALUES (?, ?, ?, ?, ?)",
+                                            (channel_id,
+                                            channel_name,
+                                            video_id,
+                                            video_name,
+                                            f"https://www.youtube.com/watch?v={video_id}"))
+                    await database.commit()
 
-                        embed = discord.Embed(
-                            title=video_name,
-                            url=f"https://www.youtube.com/watch?v={video_id}",
-                            type="rich",
-                            description=f"{channel_name} just uploaded a new video on YouTube",
-                            color=0xFF0000
-                        )
+                    embed = discord.Embed(
+                        title=video_name,
+                        url=f"https://www.youtube.com/watch?v={video_id}",
+                        type="rich",
+                        description=f"{channel_name} just uploaded a new video on YouTube",
+                        color=0xFF0000
+                    )
 
-                        channel_avatar_request = self.youtube.channels().list(
-                            part="snippet",
-                            id=channel_id
-                        )
+                    channel_avatar_request = self.youtube.channels().list(
+                        part="snippet",
+                        id=channel_id
+                    )
 
-                        channel_avatar_response = channel_avatar_request.execute()
+                    channel_avatar_response = channel_avatar_request.execute()
 
-                        # Embed the channel name.
-                        embed.set_author(
-                            name=channel_name,
-                            url=f"https://youtube.com/channel/{channel_id}",
-                            icon_url=channel_avatar_response["items"][0]["snippet"]["thumbnails"]["high"]["url"]
-                        )
+                    # Embed the channel name.
+                    embed.set_author(
+                        name=channel_name,
+                        url=f"https://youtube.com/channel/{channel_id}",
+                        icon_url=channel_avatar_response["items"][0]["snippet"]["thumbnails"]["high"]["url"]
+                    )
 
-                        # Embed the footer
-                        embed.set_footer(
-                            text="Pwn The Jewels"
-                        )
+                    # Embed the footer
+                    embed.set_footer(
+                        text="Pwn The Jewels"
+                    )
 
-                        # Embed the time
-                        embed.timestamp = datetime.utcnow()
+                    # Embed the time
+                    embed.timestamp = datetime.utcnow()
 
-                        await channel.send(embed=embed)
+                    await channel.send(embed=embed)
 
-                    # If the video exists in the database:
-                    else:
-                        continue
+                # If the video exists in the database:
+                else:
+                    continue
