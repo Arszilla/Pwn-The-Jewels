@@ -5,7 +5,8 @@ from os.path import isdir, isfile
 import discord
 from discord.ext import commands
 
-from core import analyze, constants, functions, rss, google_alerts, reddit, twitter, youtube
+from core import (analyze, constants, functions, google_alerts, reddit, rss,
+                  telegram, twitter, youtube)
 
 
 class Commands(commands.Cog):
@@ -136,6 +137,28 @@ class Commands(commands.Cog):
 
         elif result == True:
             await context.send(f"Removed `/r/{subreddit.lower()}` from the watchlist database.")
+
+    @commands.command()
+    async def addtelegram(self, context, url):
+        telegram_class = telegram.Telegram(bot=None)
+        result, channel = await telegram_class.add_channel(url)
+
+        if result == False:
+            await context.send(f"`{channel}` already exists in the watchlist database, as a result it was not added.")
+
+        elif result == True:
+            await context.send(f"Added `{channel}` to the watchlist database.")
+
+    @commands.command()
+    async def removetelegram(self, context, url):
+        telegram_class = telegram.Telegram(bot=None)
+        result, channel = await telegram_class.remove_channel(url)
+
+        if result == False:
+            await context.send(f"`{channel}` doesn't exist in the watchlist database, as a result it was not removed.")
+
+        elif result == True:
+            await context.send(f"Removed `{channel}` from the watchlist database.")
 
     @commands.command()
     async def addtweeter(self, context, username):
