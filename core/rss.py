@@ -53,71 +53,67 @@ class RSS():
     # Run this every 30 seconds
     @loop(seconds=30)
     async def monitor_rss(self):
-        try:
-            # Define the channel that'll be used to send the embeds:
-            channel = self.bot.get_channel(constants.Channels.general_rss)
+        # Define the channel that'll be used to send the embeds:
+        channel = self.bot.get_channel(constants.Channels.general_rss)
 
-            async with aiosqlite.connect(constants.Database.name) as database:
-                async with database.execute("SELECT * FROM general_rss_links") as rss_cursor:
-                    rss_links = await rss_cursor.fetchall()
+        async with aiosqlite.connect(constants.Database.name) as database:
+            async with database.execute("SELECT * FROM general_rss_links") as rss_cursor:
+                rss_links = await rss_cursor.fetchall()
 
-                # Turn the list of tuples into a list:
-                rss_links = [url[0] for url in rss_links]
+            # Turn the list of tuples into a list:
+            rss_links = [url[0] for url in rss_links]
 
-                for url in rss_links:
-                    # Get the RSS feed of the URL
-                    feed = feedparser.parse(url)
+            for url in rss_links:
+                # Get the RSS feed of the URL
+                feed = feedparser.parse(url)
 
-                    # Get the first entry in the feed
-                    entry = feed.entries[0]
+                # Get the first entry in the feed
+                entry = feed.entries[0]
 
-                    async with database.execute("SELECT id FROM general_rss_posts WHERE id=?",
-                                                (str(entry.id),)) as id_cursor:
-                        result = await id_cursor.fetchall()
+                async with database.execute("SELECT id FROM general_rss_posts WHERE id=?",
+                                            (str(entry.id),)) as id_cursor:
+                    result = await id_cursor.fetchall()
 
-                        # If the ID does NOT exist in the database:
-                        if len(result) == 0:
-                            await database.execute("INSERT INTO general_rss_posts VALUES (?, ?, ?)",
-                                                   (str(entry.id),
-                                                    str(entry.title),
-                                                    str(entry.link)))
-                            await database.commit()
+                    # If the ID does NOT exist in the database:
+                    if len(result) == 0:
+                        await database.execute("INSERT INTO general_rss_posts VALUES (?, ?, ?)",
+                                                (str(entry.id),
+                                                str(entry.title),
+                                                str(entry.link)))
+                        await database.commit()
 
-                            # Embed the entry
-                            embed = discord.Embed(
-                                title=entry.title,
-                                url=entry.link,
-                                type="rich",
-                                color=0x777777
+                        # Embed the entry
+                        embed = discord.Embed(
+                            title=entry.title,
+                            url=entry.link,
+                            type="rich",
+                            color=0x777777
+                        )
+
+                        # If the post has an author, try to embed it:
+                        try:
+                            # Embed the author of the post.
+                            embed.set_author(
+                                name=entry.author,
                             )
 
-                            # If the post has an author, try to embed it:
-                            try:
-                                # Embed the author of the post.
-                                embed.set_author(
-                                    name=entry.author,
-                                )
-
-                            # If the post doesn't have an author, embed 'unknown author'
-                            except AttributeError:
-                                embed.set_author(
-                                    name="Unknown Author",
-                                )
-
-                            # Embed the footer
-                            embed.set_footer(
-                                text="Pwn The Jewels"
+                        # If the post doesn't have an author, embed 'unknown author'
+                        except AttributeError:
+                            embed.set_author(
+                                name="Unknown Author",
                             )
 
-                            # Embed the time
-                            embed.timestamp = datetime.utcnow()
+                        # Embed the footer
+                        embed.set_footer(
+                            text="Pwn The Jewels"
+                        )
 
-                            # Send the Discord embed to the general_rss channel.
-                            await channel.send(embed=embed)
+                        # Embed the time
+                        embed.timestamp = datetime.utcnow()
 
-                        # If the ID exists in the database, move on to the next feed.
-                        else:
-                            continue
+                        # Send the Discord embed to the general_rss channel.
+                        await channel.send(embed=embed)
 
-        except IndexError:
-            pass
+                    # If the ID exists in the database, move on to the next feed.
+                    else:
+                        continue
