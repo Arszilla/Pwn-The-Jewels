@@ -29,7 +29,7 @@ async def on_ready():
 
         # Create Google Alerts RSS related tables:
         await database.execute(f"CREATE TABLE IF NOT EXISTS google_alerts_links(url TEXT, keyword TEXT)")
-        await database.execute(f"CREATE TABLE IF NOT EXISTS google_alerts_posts(id TEXT, title TEXT, url TEXT)")
+        await database.execute(f"CREATE TABLE IF NOT EXISTS google_alerts_posts(id TEXT, keyword TEXT, title TEXT, url TEXT)")
 
         # Create Reddit related tables:
         await database.execute(f"CREATE TABLE IF NOT EXISTS reddit_subreddits(subreddit TEXT)")
