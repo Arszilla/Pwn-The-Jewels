@@ -4,9 +4,8 @@ from re import compile, sub
 import aiosqlite
 import discord
 import feedparser
-from discord.ext.tasks import loop
-
 from core import constants
+from discord.ext.tasks import loop
 
 
 class Google_Alerts():

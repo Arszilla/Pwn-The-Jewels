@@ -5,8 +5,9 @@ from os.path import isdir, isfile
 import discord
 from discord.ext import commands
 
-from core import (analyze, constants, functions, google_alerts, reddit, rss,
-                  telegram, twitter, youtube)
+from core import constants
+from core.monitoring import (RSS, Google_Alerts, Reddit, Telegram, Twitter,
+                             YouTube)
 
 
 class Commands(commands.Cog):
@@ -74,7 +75,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def addrss(self, context, url):
-        rss_class = rss.RSS(bot=None)
+        rss_class = RSS(bot=None)
         result = await rss_class.add_feed(url)
 
         if result == False:
@@ -85,7 +86,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def removerss(self, context, url):
-        rss_class = rss.RSS(bot=None)
+        rss_class = RSS(bot=None)
         result = await rss_class.remove_feed(url)
 
         if result == False:
@@ -96,7 +97,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def addalert(self, context, url):
-        alert_class = google_alerts.Google_Alerts(bot=None)
+        alert_class = Google_Alerts(bot=None)
         result, keyword = await alert_class.add_alert(url)
 
         if result == False:
@@ -107,7 +108,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def removealert(self, context, url):
-        alert_class = google_alerts.Google_Alerts(bot=None)
+        alert_class = Google_Alerts(bot=None)
         result, keyword = await alert_class.remove_alert(url)
 
         if result == False:
@@ -118,7 +119,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def addsubreddit(self, context, subreddit):
-        reddit_class = reddit.Reddit(bot=None)
+        reddit_class = Reddit(bot=None)
         result = await reddit_class.add_subreddit(subreddit.lower())
 
         if result == False:
@@ -129,7 +130,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def removesubreddit(self, context, subreddit):
-        reddit_class = reddit.Reddit(bot=None)
+        reddit_class = Reddit(bot=None)
         result = await reddit_class.remove_subreddit(subreddit.lower())
 
         if result == False:
@@ -140,7 +141,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def addtelegram(self, context, url):
-        telegram_class = telegram.Telegram(bot=None)
+        telegram_class = Telegram(bot=None)
         result, channel = await telegram_class.add_channel(url)
 
         if result == False:
@@ -151,7 +152,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def removetelegram(self, context, url):
-        telegram_class = telegram.Telegram(bot=None)
+        telegram_class = Telegram(bot=None)
         result, channel = await telegram_class.remove_channel(url)
 
         if result == False:
@@ -162,7 +163,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def addtweeter(self, context, username):
-        twitter_class = twitter.Twitter(bot=None)
+        twitter_class = Twitter(bot=None)
         result = await twitter_class.add_user(username.lower())
 
         if result == False:
@@ -173,7 +174,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def removetweeter(self, context, username):
-        twitter_class = twitter.Twitter(bot=None)
+        twitter_class = Twitter(bot=None)
         result = await twitter_class.remove_user(username.lower())
 
         if result == False:
@@ -184,7 +185,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def enablerts(self, context, username):
-        twitter_class = twitter.Twitter(bot=None)
+        twitter_class = Twitter(bot=None)
         result = await twitter_class.enable_retweets(username.lower())
 
         if result == "0":
@@ -198,7 +199,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def disablerts(self, context, username):
-        twitter_class = twitter.Twitter(bot=None)
+        twitter_class = Twitter(bot=None)
         result = await twitter_class.disable_retweets(username.lower())
 
         if result == "0":
@@ -212,7 +213,7 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def addchannel(self, context, url):
-        youtube_class = youtube.Youtube(bot=None)
+        youtube_class = YouTube(bot=None)
         result, channel_name = await youtube_class.add_channel(url)
 
         if result == False:
@@ -223,9 +224,9 @@ class Commands(commands.Cog):
 
     @commands.command()
     async def removechannel(self, context, url):
-        youtube_class = youtube.Youtube(bot=None)
+        youtube_class = YouTube(bot=None)
         result, channel_name = await youtube_class.remove_channel(url)
-        
+
         if result == False:
             await context.send(f"`{channel_name}` doesn't exist in the watchlist database, as a result it was not removed.")
 

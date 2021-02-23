@@ -3,13 +3,12 @@ from re import search, split
 
 import aiosqlite
 import discord
+from core import constants
 from discord.ext.tasks import loop
 from googleapiclient.discovery import build
 
-from core import constants
 
-
-class Youtube():
+class YouTube():
     def __init__(self, bot):
         self.bot = bot
 

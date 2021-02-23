@@ -4,9 +4,8 @@ from re import sub
 import aiosqlite
 import discord
 import tweepy
-from discord.ext.tasks import loop
-
 from core import constants
+from discord.ext.tasks import loop
 
 
 class Twitter():

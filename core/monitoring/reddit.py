@@ -3,9 +3,8 @@ from datetime import datetime
 import aiosqlite
 import asyncpraw
 import discord
-from discord.ext.tasks import loop
-
 from core import constants
+from discord.ext.tasks import loop
 
 
 class Reddit():

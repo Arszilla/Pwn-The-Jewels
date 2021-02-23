@@ -3,9 +3,8 @@ from datetime import datetime
 import aiosqlite
 import discord
 import feedparser
-from discord.ext.tasks import loop
-
 from core import constants
+from discord.ext.tasks import loop
 
 
 class Telegram():
