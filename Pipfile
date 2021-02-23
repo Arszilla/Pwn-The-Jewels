@@ -6,7 +6,6 @@ name = "pypi"
 [packages]
 aiosqlite = "*"
 asyncpraw = "*"
-"checksec.py" = "*"
 "discord.py" = "*"
 feedparser = "*"
 google-api-python-client = "*"
