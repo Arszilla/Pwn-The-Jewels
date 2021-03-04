@@ -25,28 +25,28 @@ async def on_ready():
     """
     async with aiosqlite.connect(constants.Database.name) as database:
         # Create general RSS related tables:
-        await database.execute(f"CREATE TABLE IF NOT EXISTS general_rss_links(url TEXT)")
-        await database.execute(f"CREATE TABLE IF NOT EXISTS general_rss_posts(id TEXT, title TEXT, url TEXT)")
+        await database.execute("CREATE TABLE IF NOT EXISTS general_rss_links(url TEXT)")
+        await database.execute("CREATE TABLE IF NOT EXISTS general_rss_posts(id TEXT, title TEXT, url TEXT)")
 
         # Create Google Alerts RSS related tables:
-        await database.execute(f"CREATE TABLE IF NOT EXISTS google_alerts_links(url TEXT, keyword TEXT)")
-        await database.execute(f"CREATE TABLE IF NOT EXISTS google_alerts_posts(id TEXT, keyword TEXT, title TEXT, url TEXT)")
+        await database.execute("CREATE TABLE IF NOT EXISTS google_alerts_links(url TEXT, keyword TEXT)")
+        await database.execute("CREATE TABLE IF NOT EXISTS google_alerts_posts(id TEXT, keyword TEXT, title TEXT, url TEXT)")
 
         # Create Reddit related tables:
-        await database.execute(f"CREATE TABLE IF NOT EXISTS reddit_subreddits(subreddit TEXT)")
-        await database.execute(f"CREATE TABLE IF NOT EXISTS reddit_posts(id TEXT, subreddit TEXT, author TEXT, title TEXT, url TEXT)")
+        await database.execute("CREATE TABLE IF NOT EXISTS reddit_subreddits(subreddit TEXT)")
+        await database.execute("CREATE TABLE IF NOT EXISTS reddit_posts(id TEXT, subreddit TEXT, author TEXT, title TEXT, url TEXT)")
 
         # Create Telegram related tables:
-        await database.execute(f"CREATE TABLE IF NOT EXISTS telegram_rss_links(url TEXT, channel TEXT)")
-        await database.execute(f"CREATE TABLE IF NOT EXISTS telegram_rss_posts(id TEXT, channel TEXT, title TEXT, url TEXT)")
+        await database.execute("CREATE TABLE IF NOT EXISTS telegram_rss_links(url TEXT, channel TEXT)")
+        await database.execute("CREATE TABLE IF NOT EXISTS telegram_rss_posts(id TEXT, channel TEXT, title TEXT, url TEXT)")
 
         # Create Twitter related tables:
-        await database.execute(f"CREATE TABLE IF NOT EXISTS twitter_usernames(username TEXT, retweets INT)")
-        await database.execute(f"CREATE TABLE IF NOT EXISTS twitter_tweets(id INTEGER, user TEXT, text TEXT, url TEXT)")
+        await database.execute("CREATE TABLE IF NOT EXISTS twitter_usernames(username TEXT, retweets INT)")
+        await database.execute("CREATE TABLE IF NOT EXISTS twitter_tweets(id INTEGER, user TEXT, text TEXT, url TEXT)")
 
         # Create Youtube related tables
-        await database.execute(f"CREATE TABLE IF NOT EXISTS youtube_channels(channel_id TEXT, channel_name TEXT)")
-        await database.execute(f"CREATE TABLE IF NOT EXISTS youtube_videos(channel_id TEXT, channel_name TEXT, video_id TEXT, title TEXT, url TEXT)")
+        await database.execute("CREATE TABLE IF NOT EXISTS youtube_channels(channel_id TEXT, channel_name TEXT)")
+        await database.execute("CREATE TABLE IF NOT EXISTS youtube_videos(channel_id TEXT, channel_name TEXT, video_id TEXT, title TEXT, url TEXT)")
 
     # Start RSS monitoring:
     rss_monitor = RSS(bot)
