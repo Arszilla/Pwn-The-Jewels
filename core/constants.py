@@ -1,5 +1,7 @@
 """
 Loads bot configuration from YAML files.
+This is borrowed from Python Discord's bot: 
+https://github.com/python-discord/bot/blob/master/bot/constants.py
 """
 
 import logging
