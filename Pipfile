@@ -15,7 +15,7 @@ tweepy = "*"
 [dev-packages]
 
 [requires]
-python_version = "3.9.1"
+python_version = "3.9.2"
 
 [scripts]
 bot = "python -m core"
