@@ -22,26 +22,108 @@ class Commands(commands.Cog):
         embed = discord.Embed(
             title="Available Commands",
             type="rich",
-            color=0x7CFC00
+            color=0xBA1070
         )
         embed.add_field(
             name="help",
-            value="Runs this command",
+            value="Displays this menu.",
             inline=False
         )
         embed.add_field(
             name="clear",
-            value="Clears a given amount of messages from the channel the command was invoked in",
+            value="Clears a given amount of messages from the channel the command was invoked in.\n"
+                  "Example usage:  `$clear <amount>`",
             inline=False
         )
         embed.add_field(
-            name="analyze_linux",
-            value="Using `checksec.py`, analyze a given Linux binary",
+            name="addrss",
+            value="Add a RSS feed to the database.\n"
+                  "Example usage: `$addrss <url>`",
             inline=False
         )
         embed.add_field(
-            name="analyze_windows",
-            value="Using `checksec.py`, analyze a given Windows binary",
+            name="removerss",
+            value="Remove a RSS feed from the database.\n"
+                  "Example usage: `$removerss <url>`",
+            inline=False
+        )
+        embed.add_field(
+            name="addalert",
+            value="Add a Google Alerts RSS feed to the database.\n"
+                  "Example usage: `$addalert <url>`",
+            inline=False
+        )
+        embed.add_field(
+            name="removealert",
+            value="Remove a Google Alerts RSS feed from the database.\n"
+                  "Example usage: `$removealert <url>`",
+            inline=False
+        )
+        embed.add_field(
+            name="addsubreddit",
+            value="Add a subreddit to the database.\n"
+                  "The `/r/` should **NOT** be included.\n"
+                  "Example usage: `$addsubreddit <subreddit-name>`",
+            inline=False
+        )
+        embed.add_field(
+            name="removesubreddit",
+            value="Remove a subreddit from the database.\n"
+                  "The `/r/` should **NOT** be included.\n"
+                  "Example usage: `$addsubreddit <subreddit-name>`",
+            inline=False
+        )
+        embed.add_field(
+            name="addtelegram",
+            value="Add a Telegram RSS feed to the database.\n"
+                  "Example usage: `$addtelegram <url>`",
+            inline=False
+        )
+        embed.add_field(
+            name="removetelegram",
+            value="Remove a Telegram RSS feed from the database.\n"
+                  "Example usage: `$removetelegram <url>`",
+            inline=False
+        )
+        embed.add_field(
+            name="addtweeter",
+            value="Add a Twitter user to the database.\n"
+                  "The `@` should **NOT** be included.\n"
+                  "Example usage: `$addtweeter <username>`",
+            inline=False
+        )
+        embed.add_field(
+            name="removetweeter",
+            value="Remove a Twitter user from the database.\n"
+                  "The `@` should **NOT** be included.\n"
+                  "Example usage: `$removetweeter <username>`",
+            inline=False
+        )
+        embed.add_field(
+            name="enablerts",
+            value="Enable monitoring for retweets for a given username in the database.\n"
+                  "By default this is disabled.\n"
+                  "The `@` should **NOT** be included.\n"
+                  "Example usage: `$enablerts <username>`",
+            inline=False
+        )
+        embed.add_field(
+            name="disablerts",
+            value="Disable monitoring for retweets for a given username in the database.\n"
+                  "The `@` should **NOT** be included.\n"
+                  "Example usage: `$disablerts <username>`",
+            inline=False
+        )
+        embed.add_field(
+            name="addchannel",
+            value="Add a YouTube channel to the database.\n"
+                  "Example usage: `$addchannel <channel-url>`",
+            inline=False
+        )
+        embed.add_field(
+            name="removechannel",
+            value="Remove a YouTube channel from the database.\n"
+                  "Example usage: `$removechannel <channel-url>`",
             inline=False
         )
 
@@ -60,7 +142,7 @@ class Commands(commands.Cog):
         # Give them a small timeframe to know
         await sleep(0.75)
 
-        # Increase the amout by 2; because of the message sent by the
+        # Increase the amount by 2; because of the message sent by the
         # invoker and the message we just sent
         amount = int(amount) + 2
 
@@ -71,6 +153,7 @@ class Commands(commands.Cog):
         await context.send(f"Cleared {len(deleted_amount)} message(s).",
                            delete_after=1.0)
 
+    # RSS commands:
     @commands.command()
     async def addrss(self, context, url):
         rss_class = RSS(bot=None)
@@ -93,6 +176,7 @@ class Commands(commands.Cog):
         elif result == True:
             await context.send(f"Removed the URL from the watchlist database.")
 
+    # Google Alerts commands:
     @commands.command()
     async def addalert(self, context, url):
         alert_class = Google_Alerts(bot=None)
@@ -115,6 +199,7 @@ class Commands(commands.Cog):
         elif result == True:
             await context.send(f"Removed the alert for `{keyword}` from the watchlist database.")
 
+    # Reddit commands:
     @commands.command()
     async def addsubreddit(self, context, subreddit):
         reddit_class = Reddit(bot=None)
@@ -137,6 +222,7 @@ class Commands(commands.Cog):
         elif result == True:
             await context.send(f"Removed `/r/{subreddit.lower()}` from the watchlist database.")
 
+    # Telegram commands:
     @commands.command()
     async def addtelegram(self, context, url):
         telegram_class = Telegram(bot=None)
@@ -159,6 +245,7 @@ class Commands(commands.Cog):
         elif result == True:
             await context.send(f"Removed `{channel}` from the watchlist database.")
 
+    # Twitter commands:
     @commands.command()
     async def addtweeter(self, context, username):
         twitter_class = Twitter(bot=None)
@@ -209,6 +296,7 @@ class Commands(commands.Cog):
         elif result == "2":
             await context.send(f"Retweets from `@{username.lower()}` will now not be displayed.")
 
+    # YouTube commands:
     @commands.command()
     async def addchannel(self, context, url):
         youtube_class = YouTube(bot=None)
@@ -231,6 +319,11 @@ class Commands(commands.Cog):
         elif result == True:
             await context.send(f"Removed `{channel_name}` from the watchlist database.")
 
+    @commands.command()
+    async def shutdown(self, context):
+        await context.send("Shutting down Pwn The Jewels in 3 seconds...")
+        await sleep(3)
+        await self.bot.close()
 
 def setup(bot):
     bot.add_cog(Commands(bot))
