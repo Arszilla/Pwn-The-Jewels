@@ -22,7 +22,13 @@ After cloning the repository, configure your `config.yml` to assign your API key
 
 ### Mandatory Values
 - Discord:
-  - [Discord API Bot Key][9]
+  - [Discord API Bot Key][9] with either `Administrator` permission or the following permissions:
+    - `View Channels`
+    - `Send Messages`
+    - `Manage Messages`
+    - `Embed Links`
+    - `Attach Files`
+    - `Read Message History`
   - Channel IDs. You can get this by right-clicking a channel name and pressing `Copy ID`.
 - [Reddit API][10]:
   - Client ID
