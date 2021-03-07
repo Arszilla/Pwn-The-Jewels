@@ -5,7 +5,7 @@ bot:
 
 guild:
   channels:
-    # RSS and Reminder channels
+    # RSS channels
     general_rss:  000000000000000000
     google_rss:   000000000000000000
     reddit_rss:   000000000000000000
