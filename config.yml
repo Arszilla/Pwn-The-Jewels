@@ -17,9 +17,9 @@ database:
   name: "watchlist.db"
 
 reddit:
-  client_id: "REDDIT_CLIENT_ID"
-  secret: "REDDIT_SECRET"
-  user_agent: "Pwn The Jewels - A Discord Infosec Bot by Arszilla" 
+  client_id: ""
+  secret: ""
+  user_agent: "Pwn The Jewels - A Cyber Threat Intel Bot by Arszilla" 
 
 twitter:
   access_token: ""
