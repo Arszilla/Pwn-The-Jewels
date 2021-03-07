@@ -1,7 +1,7 @@
 bot:
   prefix: "$"
   token: ""
-  profile_picture: "https://raw.githubusercontent.com/Arszilla/Pwn-The-Jewels/master/images/Pwn%20The%20Jewels.png"
+  profile_picture: "https://i.imgur.com/Z9gqaaA.png"
 
 guild:
   channels:
