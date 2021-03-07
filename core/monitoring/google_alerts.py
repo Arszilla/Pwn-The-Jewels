@@ -18,7 +18,6 @@ class Google_Alerts():
             feed = feedparser.parse(url)
             keyword = feed.feed.title.split('"')[1].split('"')[0]
 
-            
             # Check if the URL exists in the database.
             async with database.execute("SELECT url FROM google_alerts_links WHERE url=?",
                                         (url,)) as cursor:
@@ -94,7 +93,7 @@ class Google_Alerts():
                     link = link.split("&url=")[1].split("&ct=")[0]
 
                     await database.execute("INSERT INTO google_alerts_posts VALUES (?, ?, ?, ?)",
-                                            (entry_id,
+                                           (entry_id,
                                             keyword,
                                             parsed_title,
                                             link))
@@ -113,12 +112,14 @@ class Google_Alerts():
                     # Embed the author of the post.
                     embed.set_author(
                         name="Google Alerts",
-                        url="https://www.google.com/alerts"
+                        url="https://www.google.com/alerts",
+                        icon_url="https://google.com/favicon.ico"
                     )
 
                     # Embed the footer
                     embed.set_footer(
-                        text="Pwn The Jewels"
+                        text="Pwn The Jewels",
+                        icon_url=constants.Bot.profile_picture
                     )
 
                     # Embed the time

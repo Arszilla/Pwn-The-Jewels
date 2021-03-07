@@ -89,13 +89,7 @@ class Bot(metaclass=YAMLGetter):
 
     prefix: str
     token: str
-
-
-class Guild(metaclass=YAMLGetter):
-    section = "guild"
-
-    id: int
-    invite: str
+    profile_picture: str
 
 
 class Channels(metaclass=YAMLGetter):
@@ -105,7 +99,6 @@ class Channels(metaclass=YAMLGetter):
     general_rss: int
     google_rss: int
     reddit_rss: int
-    reminders: int
     telegram_rss: int
     twitter_rss: int
     youtube_rss: int

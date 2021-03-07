@@ -106,11 +106,13 @@ class Telegram():
                     # Embed the author of the post.
                     embed.set_author(
                         name=entry.author,
+                        icon_url="https://telegram.org/favicon.ico"
                     )
 
                     # Embed the footer
                     embed.set_footer(
-                        text="Pwn The Jewels"
+                        text="Pwn The Jewels",
+                        icon_url=constants.Bot.profile_picture
                     )
 
                     # Embed the time

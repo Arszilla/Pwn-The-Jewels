@@ -104,7 +104,8 @@ class RSS():
 
                         # Embed the footer
                         embed.set_footer(
-                            text="Pwn The Jewels"
+                            text="Pwn The Jewels",
+                            icon_url=constants.Bot.profile_picture
                         )
 
                         # Embed the time

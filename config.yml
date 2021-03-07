@@ -1,20 +1,17 @@
 bot:
   prefix: "$"
   token: ""
+  profile_picture: "https://raw.githubusercontent.com/Arszilla/Pwn-The-Jewels/master/images/Pwn%20The%20Jewels.png"
 
 guild:
-  id: 000000000000000000
-  invite: ""
-
   channels:
     # RSS and Reminder channels
-    general_rss:    &RSS_CHANNEL        000000000000000000
-    google_rss:     &GOOGLE_RSS_CHANNEL 000000000000000000
-    reddit_rss:     &REDDIT_CHANNEL     000000000000000000
-    reminders:      &REMINDER_CHANNEL   000000000000000000
-    telegram_rss:   &TELEGRAM_CHANNEL   000000000000000000
-    twitter_rss:    &TWITTER_CHANNEL    000000000000000000
-    youtube_rss:    &YOUTUBE_CHANNEL    000000000000000000
+    general_rss:  000000000000000000
+    google_rss:   000000000000000000
+    reddit_rss:   000000000000000000
+    telegram_rss: 000000000000000000
+    twitter_rss:  000000000000000000
+    youtube_rss:  000000000000000000
 
 database:
   name: "watchlist.db"
