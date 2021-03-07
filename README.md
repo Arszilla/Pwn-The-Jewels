@@ -118,7 +118,7 @@ sort out alternative cryptocurrencies.
 
 [1]:    https://img.shields.io/badge/Python-3.9.2-yellow.svg?color=blue&logo=python&logoColor=white
 [2]:    https://www.python.org/download/
-[3]:    https://img.shields.io/github/license/Arszilla/Pwn-The-Jewels.svg?color=orange&logo=github
+[3]:    https://img.shields.io/github/license/Arszilla/Pwn-The-Jewels?color=orange&logo=github
 [4]:    https://github.com/Arszilla/Pwn-The-Jewels/blob/master/LICENSE
 [5]:    https://img.shields.io/twitter/url?label=Twitter&style=flat-square&url=https%3A%2F%2Ftwitter.com%2FArszilla?color=blue&logo=Twitter
 [6]:    https://twitter.com/Arszilla
